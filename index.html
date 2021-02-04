@@ -16,12 +16,12 @@
 		
 		<iframe src="https://script.google.com/a/macros/dwitco.com/s/AKfycbz879efwrfgfVmfCBScMW4z7iL-GhANRp78ea5Aqx3Yl8vTM5VsDMvn3w/exec" frameborder="0"></iframe>
 		
+		<input id="postText" type="text" value="" />
+		<input id="postButton" type="button" value="post" />
+		
 		<script>
 			(function(){
-				window.addEventListener('message', function(e) {
-					console.log(e.data);
-				});
-			
+				return false;
 				var cookie = {
 					/**	@function set(_property: String, _value: String): void */
 					set: function(_property, _value) {
@@ -79,6 +79,30 @@
 				});
 				
 				console.log('hello3');
+			})();
+			
+			(function(){
+				let target = null;
+				window.addEventListener('message', function(e) {
+					console.log(e.origin);
+					console.log(e.source);
+					console.log(e.data);
+					
+					target = {
+						'origin': e.origin,
+						'source': e.source
+					};
+					e.source.postMessage('res: ' + e.data, e.origin);
+				});
+				
+				let postText = document.getElementById('postText');
+				let postButton = document.getElementById('postButton');
+				
+				postButton.addEventListener('click', function() {
+					if (target) {
+						target.source.postMessage(postText.value, target.origin);
+					}
+				});
 			})();
 		</script>
 	</body>
