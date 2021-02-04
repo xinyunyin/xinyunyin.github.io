@@ -88,21 +88,21 @@
 					console.log(e.source);
 					console.log(e.data);
 					
-					target = {
+					/*target = {
 						'origin': e.origin,
 						'source': e.source
 					};
-					e.source.postMessage('res: ' + e.data, e.origin);
+					e.source.postMessage('res: ' + e.data, e.origin);*/
 				});
 				
-				let postText = document.getElementById('postText');
+				/*let postText = document.getElementById('postText');
 				let postButton = document.getElementById('postButton');
 				
 				postButton.addEventListener('click', function() {
 					if (target) {
 						target.source.postMessage(postText.value, target.origin);
 					}
-				});
+				});*/
 			})();
 		</script>
 	</body>
