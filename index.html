@@ -14,8 +14,14 @@
 		<input type="button" value="remove1" />
 		<input type="button" value="remove2" />
 		
+		<iframe src="https://script.google.com/a/macros/dwitco.com/s/AKfycbz879efwrfgfVmfCBScMW4z7iL-GhANRp78ea5Aqx3Yl8vTM5VsDMvn3w/exec" frameborder="0"></iframe>
+		
 		<script>
 			(function(){
+				window.addEventListener('message', function(e) {
+					console.log(e.data);
+				});
+			
 				var cookie = {
 					/**	@function set(_property: String, _value: String): void */
 					set: function(_property, _value) {
