@@ -7,6 +7,73 @@
 	</head>
 	
 	<body>
-		<div>hello</div>
+		<input type="button" value="get1" />
+		<input type="button" value="get2" />
+		<input type="button" value="set1" />
+		<input type="button" value="set2" />
+		<input type="button" value="remove1" />
+		<input type="button" value="remove2" />
+		
+		<script>
+			(function(){
+				var cookie = {
+					/**	@function set(_property: String, _value: String): void */
+					set: function(_property, _value) {
+						document.cookie = _property + '=' + encodeURIComponent(_value);
+					},
+					
+					/** @function get(_property: String): String */
+					get: function(_property) {
+						var cookieArr = document.cookie.split(";");
+						for(var i = 0; i < cookieArr.length; i++) {
+							var cookiePair = cookieArr[i].split("=");
+							cookiePair[0] = i === 0 ? cookiePair[0] : cookiePair[0].substr(1);
+							if(_property == cookiePair[0]) {
+								return decodeURIComponent(cookiePair[1]);
+							}
+						}
+						return undefined;
+					},
+					
+					/** @function remove(_property: String): void */
+					remove: function(_property) {
+						document.cookie =  _property + '=; expires=Thu, 01 Jan 1970 00:00:01 GMT;';
+					}
+				};
+				
+				let get1 = document.querySelector('input[type="button"][value="get1"]');
+				let get2 = document.querySelector('input[type="button"][value="get2"]');
+				let set1 = document.querySelector('input[type="button"][value="set1"]');
+				let set2 = document.querySelector('input[type="button"][value="set2"]');
+				let remove1 = document.querySelector('input[type="button"][value="remove1"]');
+				let remove2 = document.querySelector('input[type="button"][value="remove2"]');
+				
+				get1.addEventListener('click', function() {
+					alert(cookie.get('cookie1'));
+				});
+				
+				get2.addEventListener('click', function() {
+					alert(cookie.get('cookie2'));
+				});
+				
+				set1.addEventListener('click', function() {
+					cookie.set('cookie1', 'value1');
+				});
+				
+				set2.addEventListener('click', function() {
+					cookie.set('cookie1', 'value2');
+				});
+				
+				remove1.addEventListener('click', function() {
+					cookie.remove('cookie1');
+				});
+				
+				remove2.addEventListener('click', function() {
+					cookie.remove('cookie2');
+				});
+				
+				console.log('hello3');
+			})();
+		</script>
 	</body>
 </html>
