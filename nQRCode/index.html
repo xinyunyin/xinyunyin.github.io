@@ -64,14 +64,10 @@
 				
 				window.addEventListener('message', function(e) {
 					console.log('origin:\n' + e.origin);
-					console.log('source:\n' + e.source);
 					console.log('data:\n' + e.data);
 					
-					/*target = {
-						'origin': e.origin,
-						'source': e.source
-					};*/
-					//e.source.postMessage('res: ' + e.data, e.origin);
+					// console.log('source:\n' + e.source);
+					// e.source.postMessage('res: ' + e.data, e.origin);
 				});
 				
 			})();
