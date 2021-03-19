@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="UTF-8">
+		<base target="_top">
+		
+	</head>
+	
+	<body>
+		<input type="button" value="get1" />
+		<input type="button" value="get2" />
+		<input type="button" value="set1" />
+		<input type="button" value="set2" />
+		<input type="button" value="remove1" />
+		<input type="button" value="remove2" />
+		
+		<iframe src="https://script.google.com/a/macros/dwitco.com/s/AKfycbz879efwrfgfVmfCBScMW4z7iL-GhANRp78ea5Aqx3Yl8vTM5VsDMvn3w/exec" frameborder="0"></iframe>
+		
+		<input id="postText" type="text" value="" />
+		<input id="postButton" type="button" value="post" />
+		
+		<script>
+			(function(){
+				
+				/** @namespace cookie */
+				var cookie = {
+					/**
+					 * @memberof cookie
+					 * @function set
+					 * @param {string} _property
+					 * @param {string} _value
+					 */
+					set: function(_property, _value) {
+						document.cookie = _property + '=' + encodeURIComponent(_value);
+					},
+					
+					/**
+					 * @memberof cookie
+					 * @function get
+					 * @param {string} _property
+					 * @returns {string}
+					 */
+					get: function(_property) {
+						var cookieArr = document.cookie.split(";");
+						for(var i = 0; i < cookieArr.length; i++) {
+							var cookiePair = cookieArr[i].split("=");
+							cookiePair[0] = i === 0 ? cookiePair[0] : cookiePair[0].substr(1);
+							if(_property == cookiePair[0]) {
+								return decodeURIComponent(cookiePair[1]);
+							}
+						}
+						return undefined;
+					},
+					
+					/**
+					 * @memberof cookie
+					 * @function remove
+					 * @param {string} _property
+					 */
+					remove: function(_property) {
+						document.cookie =  _property + '=; expires=Thu, 01 Jan 1970 00:00:01 GMT;';
+					}
+				};
+				
+				window.addEventListener('message', function(e) {
+					console.log('origin:\n' + e.origin);
+					console.log('source:\n' + e.source);
+					console.log('data:\n' + e.data);
+					
+					/*target = {
+						'origin': e.origin,
+						'source': e.source
+					};*/
+					//e.source.postMessage('res: ' + e.data, e.origin);
+				});
+				
+			})();
+		</script>
+	</body>
+</html>
