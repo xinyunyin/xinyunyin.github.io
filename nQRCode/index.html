@@ -4,26 +4,46 @@
 		<meta charset="UTF-8">
 		<base target="_top">
 		
+		<title>nQRCode</title>
+		<style>
+			* {
+				margin: 0;
+				padding: 0;
+				box-sizing: border-box;
+			}
+			
+			html, body {
+				height: 100%;
+				background-color: #1E1E1E;
+			}
+			
+			iframe {
+				width: 100%;
+				height: 100%;
+			}
+			
+			.yun-hidden {
+				display: none !important;
+			}
+
+			.yun-invisible {
+				visibility: hidden !important;
+			}
+		</style>
 	</head>
 	
 	<body>
-		<input type="button" value="get1" />
-		<input type="button" value="get2" />
-		<input type="button" value="set1" />
-		<input type="button" value="set2" />
-		<input type="button" value="remove1" />
-		<input type="button" value="remove2" />
-		
-		<iframe src="https://script.google.com/a/macros/dwitco.com/s/AKfycbz879efwrfgfVmfCBScMW4z7iL-GhANRp78ea5Aqx3Yl8vTM5VsDMvn3w/exec" frameborder="0"></iframe>
-		
-		<input id="postText" type="text" value="" />
-		<input id="postButton" type="button" value="post" />
+		<iframe class="yun-hidden" src="" frameborder="0"></iframe>
+		<input type="hidden" id="urlToken" />
 		
 		<script>
 			(function(){
+				let shellUrl = 'https://script.google.com/a/macros/dwitco.com/s/AKfycbyLkJIs1ooW2lCjNiDNhq434Yr6Y4ify9LC4jBZ62Ge5YvBgElQcVMiwh7At_F3G95I/exec';
+				let sourceUrl = 'https://n-ynvcs4uxxpcjtybe2tpciafdw3btlzel3pohhaq-0lu-script.googleusercontent.com';
+				let propertyName = 'nQRCode-token';
 				
 				/** @namespace cookie */
-				var cookie = {
+				let cookie = {
 					/**
 					 * @memberof cookie
 					 * @function set
@@ -41,9 +61,9 @@
 					 * @returns {string}
 					 */
 					get: function(_property) {
-						var cookieArr = document.cookie.split(";");
-						for(var i = 0; i < cookieArr.length; i++) {
-							var cookiePair = cookieArr[i].split("=");
+						let cookieArr = document.cookie.split(";");
+						for(let i = 0; i < cookieArr.length; i++) {
+							let cookiePair = cookieArr[i].split("=");
 							cookiePair[0] = i === 0 ? cookiePair[0] : cookiePair[0].substr(1);
 							if(_property == cookiePair[0]) {
 								return decodeURIComponent(cookiePair[1]);
@@ -63,13 +83,34 @@
 				};
 				
 				window.addEventListener('message', function(e) {
-					console.log('origin:\n' + e.origin);
-					console.log('data:\n' + e.data);
+					if (e.origin !== sourceUrl) {
+						return;
+					}
 					
-					// console.log('source:\n' + e.source);
-					// e.source.postMessage('res: ' + e.data, e.origin);
+					switch (e.data) {
+						case 'loadComplete':
+							iframe.classList.remove('yun-hidden');
+							break;
+						
+						case 'cookieRemove':
+							cookie.remove(propertyName);
+							break;
+						
+						default:
+							cookie.set(propertyName, e.data);
+							break;
+					}
 				});
 				
+				let iframe = document.querySelector('iframe');
+				let token = cookie.get(propertyName);
+				let iframeSrc = shellUrl;
+				
+				if (token) {
+					iframeSrc = `${shellUrl}?token=${token}`;
+				}
+				
+				iframe.src = iframeSrc;
 			})();
 		</script>
 	</body>
